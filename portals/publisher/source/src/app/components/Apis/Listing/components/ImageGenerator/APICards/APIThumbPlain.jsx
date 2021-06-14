@@ -249,7 +249,7 @@ function APIThumbPlain(props) {
                                 color='primary'
                             />
                         )}
-                        {(api.type === 'WEBSUB') && (
+                        {(api.type === 'WEBSUB') && (!api.advertiseOnlyAPI) && (
                             <Chip
                                 size='small'
                                 classes={{ root: classes.thumbRightBy, label: classes.thumbRightByLabel }}

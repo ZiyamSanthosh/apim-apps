@@ -34,6 +34,7 @@ import CustomizedStepper from './CustomizedStepper';
 import MetaData from './MetaData';
 import Endpoints from './Endpoints';
 import Topics from './Topics';
+import AsyncAPIServers from './AsyncAPIServers';
 
 const styles = (theme) => ({
     root: {
@@ -140,6 +141,7 @@ function Overview(props) {
     const { classes, api: newApi, setOpenPageSearch } = props;
     const { api } = useContext(ApiContext);
     let loadEndpoints;
+    let asyncapiServers;
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.key === 's') {
@@ -161,6 +163,7 @@ function Overview(props) {
     }, [setOpenPageSearch]);
     if (api.apiType === API.CONSTS.API) {
         loadEndpoints = <Endpoints parentClasses={classes} api={api} />;
+        asyncapiServers = <AsyncAPIServers parentClasses={classes} api={api} />;
     }
     function getResourcesClassForAPIs(apiType) {
         switch (apiType) {
@@ -210,28 +213,58 @@ function Overview(props) {
                         </Grid>
                         <Grid item xs={12} md={12} lg={12}>
                             <div className={classes.specialGap}>
-                                <Grid container spacing={24}>
-                                    {
-                                        api.type === 'WEBSUB' ? (
-                                            <Grid item xs={12} md={12} lg={12}>
+                                {api.advertiseInfo.advertised ? (
+                                    <Grid container spacing={24}>
+                                        {
+                                            api.type === 'WEBSUB' ? (
+                                                <>
+                                                    <Grid item xs={12} md={6} lg={6}>
+                                                        <Grid item xs={12} md={8} lg={8}>
+                                                            {getResourcesClassForAPIs(api.type)}
+                                                        </Grid>
+                                                    </Grid>
+                                                    <Grid item xs={12} md={6} lg={6}>
+                                                        {asyncapiServers}
+                                                    </Grid>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Grid item xs={12} md={6} lg={6}>
+                                                        <Grid item xs={12} md={8} lg={8}>
+                                                            {getResourcesClassForAPIs(api.type)}
+                                                        </Grid>
+                                                    </Grid>
+                                                    <Grid item xs={12} md={6} lg={6}>
+                                                        {loadEndpoints}
+                                                    </Grid>
+                                                </>
+                                            )
+                                        }
+                                    </Grid>
+                                ) : (
+                                    <Grid container spacing={24}>
+                                        {
+                                            api.type === 'WEBSUB' ? (
                                                 <Grid item xs={12} md={12} lg={12}>
-                                                    {getResourcesClassForAPIs(api.type)}
-                                                </Grid>
-                                            </Grid>
-                                        ) : (
-                                            <>
-                                                <Grid item xs={12} md={6} lg={6}>
-                                                    <Grid item xs={12} md={8} lg={8}>
+                                                    <Grid item xs={12} md={12} lg={12}>
                                                         {getResourcesClassForAPIs(api.type)}
                                                     </Grid>
                                                 </Grid>
-                                                <Grid item xs={12} md={6} lg={6}>
-                                                    {loadEndpoints}
-                                                </Grid>
-                                            </>
-                                        )
-                                    }
-                                </Grid>
+                                            ) : (
+                                                <>
+                                                    <Grid item xs={12} md={6} lg={6}>
+                                                        <Grid item xs={12} md={8} lg={8}>
+                                                            {getResourcesClassForAPIs(api.type)}
+                                                        </Grid>
+                                                    </Grid>
+                                                    <Grid item xs={12} md={6} lg={6}>
+                                                        {loadEndpoints}
+                                                    </Grid>
+                                                </>
+                                            )
+                                        }
+                                    </Grid>
+                                )}
                             </div>
                         </Grid>
                     </Grid>

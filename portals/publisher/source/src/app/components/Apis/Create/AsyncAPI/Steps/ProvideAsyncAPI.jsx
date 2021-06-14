@@ -40,6 +40,7 @@ import InsertDriveFile from '@material-ui/icons/InsertDriveFile';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import Banner from 'AppComponents/Shared/Banner';
 import APIValidation from 'AppData/APIValidation';
@@ -60,7 +61,9 @@ const useStyles = makeStyles((theme) => ({
  * @returns {React.Component} @inheritdoc
  */
 export default function ProvideAsyncAPI(props) {
-    const { apiInputs, inputsDispatcher, onValidate } = props;
+    const {
+        apiInputs, inputsDispatcher, onValidate, setAdvertiseOnly,
+    } = props;
     const isFileInput = apiInputs.inputType === 'file';
     const { inputType, inputValue } = apiInputs;
     const classes = useStyles();
@@ -314,6 +317,15 @@ export default function ProvideAsyncAPI(props) {
                             error={isInvalidURL}
                         />
                     )}
+                    <FormControlLabel
+                        control={(
+                            <Checkbox
+                                onChange={setAdvertiseOnly}
+                                color='primary'
+                            />
+                        )}
+                        label='Import as an Advertise Only API'
+                    />
                 </Grid>
                 <Grid item xs={2} md={5} />
             </Grid>

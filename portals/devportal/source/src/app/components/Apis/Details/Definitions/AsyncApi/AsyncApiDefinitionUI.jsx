@@ -56,7 +56,10 @@ class AsyncApiDefinitionUI extends Component {
         const { classes } = this.props;
         // Avoid rendering the 'servers' portion from the AsyncAPI definition.
         const asyncApiDefinition = JSON.parse(this.context.api.apiDefinition);
-        delete asyncApiDefinition.servers;
+        console.log(this.context.api);
+        if (this.context.api.advertiseInfo.advertised !== true) {
+            delete asyncApiDefinition.servers;
+        }
         return (
             <>
                 <Typography variant='h4' className={classes.titleSub}>

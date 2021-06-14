@@ -50,6 +50,7 @@ import API from 'AppData/api';
 import View from 'AppComponents/Apis/Details/Documents/View';
 import Environments from './Environments';
 import Comments from './Comments/Comments';
+import AsyncAPIServers from './AsyncAPIServers';
 import OverviewDocuments from './OverviewDocuments';
 import SourceDownload from './SourceDownload';
 
@@ -414,7 +415,13 @@ function Overview() {
                             </Box>
                         </Box>
                         <Box display='flex' flexDirection='row' alignItems='center' mt={2} pr={6}>
-                            <Environments updateSelectedEndpoint={updateSelectedEndpoint} selectedEndpoint={selectedEndpoint} />
+                            {
+                                api.advertiseInfo.advertised === true ? (
+                                    <AsyncAPIServers />
+                                ) : (
+                                    <Environments updateSelectedEndpoint={updateSelectedEndpoint} selectedEndpoint={selectedEndpoint} />
+                                )
+                            }
                         </Box>
                         <Box mt={6}>
                             <Typography variant='subtitle2' component='h3' className={classes.sectionTitle}>

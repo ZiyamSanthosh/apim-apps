@@ -128,44 +128,46 @@ function MetaData(props) {
                         </>
                     )}
                     {/* Type */}
-                    {api.apiType === API.CONSTS.APIProduct ? null : (
-                        <>
-                            <Grid item xs={12} md={6} lg={4}>
-                                <>
-                                    <Typography
-                                        component='p'
-                                        variant='subtitle2'
-                                        className={parentClasses.subtitle}
-                                    >
-                                        <FormattedMessage
-                                            id='Apis.Details.NewOverview.MetaData.type:'
-                                            defaultMessage='Type:'
-                                        />
+                    {api.apiType === API.CONSTS.APIProduct ? null : ((
+                        (!api.advertiseInfo.advertised) && (
+                            <>
+                                <Grid item xs={12} md={6} lg={4}>
+                                    <>
+                                        <Typography
+                                            component='p'
+                                            variant='subtitle2'
+                                            className={parentClasses.subtitle}
+                                        >
+                                            <FormattedMessage
+                                                id='Apis.Details.NewOverview.MetaData.type:'
+                                                defaultMessage='Type:'
+                                            />
+                                        </Typography>
+                                    </>
+                                </Grid>
+                                <Grid item xs={12} md={6} lg={8}>
+                                    <Typography component='p' variant='body1'>
+                                        {api.type && <>{api.type === 'WS' ? 'WebSocket' : api.type}</>}
+                                        {!api.type
+                                            && (
+                                                <>
+                                                    <Typography
+                                                        component='p'
+                                                        variant='body1'
+                                                        className={parentClasses.notConfigured}
+                                                    >
+                                                        <FormattedMessage
+                                                            id='Apis.Details.NewOverview.MetaData.type.not.set'
+                                                            defaultMessage='-'
+                                                        />
+                                                    </Typography>
+                                                </>
+                                            )}
                                     </Typography>
-                                </>
-                            </Grid>
-                            <Grid item xs={12} md={6} lg={8}>
-                                <Typography component='p' variant='body1'>
-                                    {api.type && <>{api.type === 'WS' ? 'WebSocket' : api.type}</>}
-                                    {!api.type
-                                        && (
-                                            <>
-                                                <Typography
-                                                    component='p'
-                                                    variant='body1'
-                                                    className={parentClasses.notConfigured}
-                                                >
-                                                    <FormattedMessage
-                                                        id='Apis.Details.NewOverview.MetaData.type.not.set'
-                                                        defaultMessage='-'
-                                                    />
-                                                </Typography>
-                                            </>
-                                        )}
-                                </Typography>
-                            </Grid>
-                        </>
-                    )}
+                                </Grid>
+                            </>
+                        )
+                    ))}
                     <Grid item xs={12} md={6} lg={4}>
                         {/* Created Time */}
                         <Typography component='p' variant='subtitle2' className={parentClasses.subtitle}>

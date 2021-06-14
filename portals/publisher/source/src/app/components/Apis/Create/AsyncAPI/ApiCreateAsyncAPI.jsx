@@ -52,6 +52,7 @@ export default function ApiCreateAsyncAPI(props) {
     // eslint-disable-next-line no-use-before-define
     const classes = useStyles();
     const [hideEndpoint, setHideEndpoint] = useState(true);
+    const [checkbox, setCheckBox] = useState(false);
 
     /**
      *
@@ -146,6 +147,15 @@ export default function ApiCreateAsyncAPI(props) {
 
     /**
      *
+     *
+     * @param {*} event
+     */
+    function handleOnChangeForCheckBox(event) {
+        setCheckBox(event.target.checked);
+    }
+
+    /**
+     *
      * Set the validity of the API Inputs form
      * @param {*} isValidForm
      * @param {*} validationState
@@ -174,6 +184,9 @@ export default function ApiCreateAsyncAPI(props) {
             context,
             policies,
             type: protocolKeys[protocol],
+            advertiseInfo: {
+                advertised: checkbox,
+            },
         };
         if (endpoint) {
             additionalProperties.endpointConfig = {
@@ -185,6 +198,9 @@ export default function ApiCreateAsyncAPI(props) {
                     url: endpoint,
                 },
             };
+        }
+        if (checkbox) {
+            additionalProperties.type = protocolKeys.WebSub;
         }
         const newAPI = new API(additionalProperties);
         const promisedResponse = inputType === 'file'
@@ -255,6 +271,7 @@ export default function ApiCreateAsyncAPI(props) {
                             onValidate={handleOnValidate}
                             apiInputs={apiInputs}
                             inputsDispatcher={inputsDispatcher}
+                            setAdvertiseOnly={handleOnChangeForCheckBox}
                         />
                     )}
                     {wizardStep === 1 && (
@@ -267,43 +284,48 @@ export default function ApiCreateAsyncAPI(props) {
                             endpointPlaceholderText='Streaming Provider'
                             appendChildrenBeforeEndpoint
                         >
-                            <TextField
-                                fullWidth
-                                select
-                                label={(
-                                    <>
-                                        <FormattedMessage
-                                            id='Apis.Create.asyncAPI.Components.SelectPolicies.business.plans'
-                                            defaultMessage='Protocol'
-                                        />
-                                        <sup className={classes.mandatoryStar}>*</sup>
-                                    </>
-                                )}
-                                value={apiInputs.protocol}
-                                name='protocol'
-                                SelectProps={{
-                                    multiple: false,
-                                    renderValue: (selected) => (selected),
-                                }}
-                                margin='normal'
-                                variant='outlined'
-                                InputProps={{
-                                    id: 'itest-id-apipolicies-input',
-                                }}
-                                onChange={handleOnChangeForProtocol}
-                            >
-                                {protocols.map((protocol) => (
-                                    <MenuItem
-                                        dense
-                                        disableGutters={false}
-                                        id={protocol.name}
-                                        key={protocol.name}
-                                        value={protocol.displayName}
-                                    >
-                                        <ListItemText primary={protocol.displayName} secondary={protocol.description} />
-                                    </MenuItem>
-                                ))}
-                            </TextField>
+                            {!checkbox && (
+                                <TextField
+                                    fullWidth
+                                    select
+                                    label={(
+                                        <>
+                                            <FormattedMessage
+                                                id='Apis.Create.asyncAPI.Components.SelectPolicies.business.plans'
+                                                defaultMessage='Protocol'
+                                            />
+                                            <sup className={classes.mandatoryStar}>*</sup>
+                                        </>
+                                    )}
+                                    value={apiInputs.protocol}
+                                    name='protocol'
+                                    SelectProps={{
+                                        multiple: false,
+                                        renderValue: (selected) => (selected),
+                                    }}
+                                    margin='normal'
+                                    variant='outlined'
+                                    InputProps={{
+                                        id: 'itest-id-apipolicies-input',
+                                    }}
+                                    onChange={handleOnChangeForProtocol}
+                                >
+                                    {protocols.map((protocol) => (
+                                        <MenuItem
+                                            dense
+                                            disableGutters={false}
+                                            id={protocol.name}
+                                            key={protocol.name}
+                                            value={protocol.displayName}
+                                        >
+                                            <ListItemText
+                                                primary={protocol.displayName}
+                                                secondary={protocol.description}
+                                            />
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            )}
                         </DefaultAPIForm>
                     )}
                 </Grid>
